@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://dimplejs.org/dist/dimple.v2.1.6.min.js"></script>
+  <style>
+        body{
+            width: 100vw;
+            height: 100vh;
+            text-align: center;
+            }
+        #container{
+            margin: auto;
+            }
+        p{
+            line-height:0.5;
+            }
+        
+  </style>
+    <script type="text/javascript">
+      function draw(data) {
+      /*
+        D3.js setup code
+      */
+          "use strict";
+          var margin = 75,
+              width = 1400 - margin,
+              height = 600 - margin;
+          
+          // adding header element
+          d3.select("#container")
+            .append("h2")
+                .text("Prosper Loan Data and the Financial Crisis");
+          
+          // adding descriptive paragraphs
+          d3.select("#container")
+            .append("p")
+                .text("This visualization shows the total loans amount in $US over the years 2005-2014")
+            .append("p")
+                .text("We can easily see how the financial crisis affected the loans in 2009 causing a huge drop")
+            .append("p")
+                .text("Also how unsafe loans from unemployed borrowers or those with no income decreased after the crisis ");
+         
+    
+        
+          
+          // adding SVG element
+          var svg = d3.select("#container")
+            .append("svg")
+              .attr("width", width + margin)
+              .attr("height", height + margin)
+            .append('g')
+                .attr('class','chart');
+          
+      /*
+        Dimple.js Chart construction code
+      */
+          var graphic = "US-Dollar";          
+          function graph(graphic){
+          
+            // adding title text for legend
+            svg.selectAll("title_text")
+                 .data(["Income Categories:"])
+                 .enter()
+                 .append("text")
+                   .attr("x", 1025)
+                   .attr("y", 50)
+                   .style("font-family", "sans-serif")
+                   .style("font-size", "10px")
+                   .style("color", "Black")
+                   .text(function (d) { return d; });
+          
+            // creating new chart  
+            var myChart = new dimple.chart(svg, data);
+            
+            // positioning and sizing the graphic
+            myChart.setBounds(275,50,700,400);
+            
+           
+            
+            // defining x-axis
+            var x = myChart.addCategoryAxis("x", "Loan Origination Year"); 
+            x.addOrderRule("Loan Origination Year");
+            x.title = "Loan Origination Year";
+            
+            // defining y-axis
+          
+             var y = myChart.addMeasureAxis("y", "Loan Original Amount");
+             y.title = "Total Loan Amount ($)";
+           
+            
+            // adding series, legend, and drawing the chart
+            var s1 = myChart.addSeries("Income Range", dimple.plot.scatter);
+            var s2 = myChart.addSeries("Income Range", dimple.plot.line); 
+            s1.addOrderRule(["$100,000+","$75,000-99,999","$50,000-74,999",
+                "$25,000-49,999","$1-24,999","$0","Not employed","Not displayed"]);
+                      
+            var l = myChart.addLegend(1025, 55, 100, 400, "left");  
+            myChart.draw(800);
+          };
+            
+            graph(graphic);   // calling above function to generate initial graphic
+            
+          
+            
+        };
+    </script>
+</head>
+<body>
+    <div id='container'></div>
+    <script type="text/javascript">
+        /*
+        Use D3 (not dimple.js) to load the CSV file
+        and pass the contents of it to the draw function
+        */
+        d3.csv("prosperLoanData.csv", draw);
+    </script>
+</body>
+</html>
