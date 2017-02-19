@@ -1,5 +1,5 @@
 
-![Certificate](https://raw.githubusercontent.com/rehab-ahmed/Udacity-Data-Analyst-Nanodegree/master/certificate.png)
+![Certificate](https://github.com/rehab-ahmed/Data-Analyst-Nanodegree/blob/master/certificate.png)
 
 ### About
 This repository contains project work for Udacity's [Data Analyst Nanodegree](https://www.udacity.com/course/nd002).
